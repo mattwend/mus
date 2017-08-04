@@ -1,0 +1,16 @@
+This is a very early version of a modular synthesizer framework.
+
+How to compile
+==============
+meson
+-----
+> meson builddir
+> cd builddir
+> ninja
+
+Run the program
+===============
+> ./synth
+
+to use a prepared test input or simply use another 
+text file containing well formed input commands.
