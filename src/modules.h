@@ -12,11 +12,18 @@
 
 namespace mus_modules {
 
-	class Mod_SinGen 
+	class Module
+	{
+		public:
+			virtual void process (mus_audio_buffer_t&) = 0;
+			virtual ~Module () = default;
+	};
+
+	class Mod_SinGen : public Module
 	{
 		public:
 			Mod_SinGen ();
-			void process (mus_audio_buffer_t& buffer);
+			void process (mus_audio_buffer_t& buffer) override;
 			void init_data ();
 		private:
 			float sine[TABLE_SIZE];
