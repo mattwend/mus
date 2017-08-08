@@ -1,5 +1,4 @@
 // author: post@matthiaswende.de (Matthias Wende)
-// date  : 2017.08.01
   
 #include <atomic>
 #include <csignal>
@@ -7,52 +6,57 @@
 #include <iterator>
 #include <sstream>
 #include <thread>
-#include "modules.h"
 
 #include <jack/jack.h>
 
+#include "modules.h"
+#include "output_jack.h"
+#include "types.h"
+
 using namespace mus_modules;
+using namespace mus_output;
 
-std::atomic<bool> quit(false);
+std::atomic<bool> quit (false);
 
-void signal_handler(int sig)
+void signal_handler (int sig)
 {
 	quit.store(true);
 }
 
-struct Output_Data
-{
-	unsigned int samplerate;
-	unsigned int nsamples;
-	//std::string output_module_name;
-	//int no_outputs;
-};
-
 class SynthApp
 {
 private:
-	std::unique_ptr< Module<void*, SinGen> > sg = std::make_unique< Module<void*, SinGen> >();
+	Mod_SinGen mod_sg;
 public:
 	SynthApp ();
-	//~SynthApp ();
+
+	void operator() (mus_audio_buffer_t& buffer);
 	void run ();
 };
 
 SynthApp::SynthApp ()
 {
-	//singen
+	// connect singen with fork
+	// connect fork with output
 }
+
+void SynthApp::operator() (mus_audio_buffer_t& buffer)
+{
+	mod_sg.process (buffer);
+}
+
 void SynthApp::run ()
 {
 	while (true) {
-		if (quit.load())
+		if ( quit.load () )
 		{
 			std::cout << "\nBye!\n";
 			break;
 		}
+		// TODO Process input control data, draw gui
 		std::cout << "running\n";
-		std::flush(std::cout);
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		std::flush (std::cout);
+		std::this_thread::sleep_for ( std::chrono::milliseconds (1000) );
 	}
 }
 
@@ -70,7 +74,12 @@ int main()
 	std::signal(SIGINT, signal_handler);
 	#endif
 
+	// TODO synthapp should be a function object of type std::function
+	// and the () operator is overloaded by the process method
 	SynthApp mySynth;
+	Engine_Jack engine ("mus", "", mySynth);
+
+	engine.connect ();
 	mySynth.run ();
 	
 	return 0;

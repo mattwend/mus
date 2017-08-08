@@ -8,37 +8,24 @@
 #include <memory>
 #include <vector>
 
-#ifndef M_PI
-#define M_PI  (3.14159265)
-#endif
-
-#define TABLE_SIZE (200)
+#include "types.h"
 
 namespace mus_modules {
 
-	template<typename T, class M>
-	class Module
-	{
-		private:
-			std::vector<std::unique_ptr<T>> buffer_list;
-		public:
-			//~Module() = default;
-			void process () {
-				static_cast<M>(this)->process ();
-			}
-	};
-
-	// using ptr_mod = std::shared_ptr<Module<void*>>;
-
-	class SinGen : public Module<void*, SinGen>
+	class Mod_SinGen 
 	{
 		public:
-			SinGen ();
-			void process ();
+			Mod_SinGen ();
+			void process (mus_audio_buffer_t& buffer);
 			void init_data ();
 		private:
 			float sine[TABLE_SIZE];
+			int phase = 0;
 	};
+
+	//class Mod_Output : public Module<void, Mod_Output>
+	//{
+	//};
 
 	//class SumBuffers : public Module
 	//{

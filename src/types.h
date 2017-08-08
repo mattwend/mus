@@ -6,16 +6,17 @@
 #define M_PI (3.14159265)
 #endif
 
-#define TABLE_SIZE (200)
+#define TABLE_SIZE (400)
 
 typedef float mus_audio_sample_t;
 
+// temporary buffer type
 typedef struct
 {
-	float sine[TABLE_SIZE];
-	int left_phase;
-	int right_phase;
+	mus_audio_sample_t* out1;
+	mus_audio_sample_t* out2;
+	int nframes;
 }
-paTestData;
+mus_audio_buffer_t;
 
 #endif // H_TYPES

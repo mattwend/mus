@@ -2,7 +2,9 @@
 
 #include "output_jack.h"
 
-Engine_Jack::Engine_Jack(std::string arg1, std::string arg2) : _client_name (arg1), _server_name (arg2)
+namespace mus_output {
+
+Engine_Jack::Engine_Jack(std::string arg1, std::string arg2, std::function<void(mus_audio_buffer_t&)> p) : _client_name (arg1), _server_name (arg2), _process (p)
 {
 	jack_status_t status;
 	jack_options_t options = JackNullOption;
@@ -78,16 +80,20 @@ void Engine_Jack::connect()
 	jack_free (ports);
 }
 
-int Engine_Jack::_process (jack_nframes_t nframes, void* arg)
+int Engine_Jack::_process_stub (jack_nframes_t nframes, void* arg)
 {
-	jack_default_audio_sample_t *out1, *out2;
+	//jack_default_audio_sample_t *out1, *out2;
+	mus_audio_buffer_t buffer;
 
 	// TODO is there a way for (realtime) error handling
-	out1 = (jack_default_audio_sample_t*)jack_port_get_buffer (output_port1, nframes);
-	out2 = (jack_default_audio_sample_t*)jack_port_get_buffer (output_port2, nframes);
+	buffer.out1 = (jack_default_audio_sample_t*)jack_port_get_buffer (output_port1, nframes);
+	buffer.out2 = (jack_default_audio_sample_t*)jack_port_get_buffer (output_port2, nframes);
+	buffer.nframes = nframes;
 
-	// refresh the audio buffer of the output module in the (yet to build) array struct
 	// call the process callback
+	_process (buffer);
 
 	return 0;
 }
+
+} // namespace mus_output

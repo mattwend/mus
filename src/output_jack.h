@@ -10,20 +10,23 @@
 
 #include "types.h"
 
+namespace mus_output 
+{
+
 class Engine_Jack
 {
 private:
-	paTestData data;
-
 	jack_client_t* volatile _client;
 	jack_port_t* output_port1;
 	jack_port_t* output_port2;
 
 	std::string _client_name;
 	std::string _server_name;
+	std::function<void(mus_audio_buffer_t&)> _process;
 
 public:
-	Engine_Jack(std::string arg1, std::string arg2);
+	//Engine_Jack(std::string arg1, std::string arg2);
+	Engine_Jack(std::string arg1, std::string arg2, std::function<void(mus_audio_buffer_t&)> p);
 
 	~Engine_Jack();
 
@@ -41,11 +44,12 @@ public:
 	static int process_wrapper (jack_nframes_t nframes, void *arg)
 	{
 		//return static_cast<Engine_Jack*>(arg)->_process ( nframes, (void*)&( static_cast<Engine_Jack*>(arg)->get_data() ) );
-		return static_cast<Engine_Jack*>(arg)->_process ( nframes, NULL );
+		return static_cast<Engine_Jack*>(arg)->_process_stub ( nframes, NULL );
 	}
 
 private:
-	int _process (jack_nframes_t nframes, void* arg);
+	int _process_stub (jack_nframes_t nframes, void* arg);
 };
 
+} // namespace mus_output
 #endif // H_OUTPUT_JACK

@@ -1,17 +1,16 @@
 // author: post@matthiaswende.de (Matthias Wende)
 
 #include "modules.h"
-// #include <algorithm>
 
 namespace mus_modules {
 
-	SinGen::SinGen ()
+	Mod_SinGen::Mod_SinGen ()
 	{
 		init_data ();
 	}
 
 
-	void SinGen::init_data ()
+	void Mod_SinGen::init_data ()
 	{
 		// TODO this TABLE should be precalculated
 		for ( int i = 0; i < TABLE_SIZE; ++i )
@@ -20,8 +19,15 @@ namespace mus_modules {
 		}
 	}
 
-	void SinGen::process ()
+	void Mod_SinGen::process (mus_audio_buffer_t& buffer)
 	{
+		for ( int i = 0; i < buffer.nframes; ++i )
+		{
+			buffer.out1[i] = sine[phase];
+			buffer.out2[i] = sine[phase];
+			++phase;
+			if (phase >= TABLE_SIZE) phase -= TABLE_SIZE;
+		}
 	}
 
 	//const std::string SumBuffers::type_("sum");
