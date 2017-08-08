@@ -1,4 +1,5 @@
 !!BE CAREFUL AND AT LEAST LOWER YOUR VOLUME!!
+
 This is a very early version of a modular synthesizer framework.
 main.cc is the reference software synthesizer using this framework.
 The goal is to make it very easy to build synthesizers.
@@ -16,6 +17,3 @@ meson
 Run the program
 ===============
 > ./synth
-
-to use a prepared test input or simply use another 
-text file containing well formed input commands.
