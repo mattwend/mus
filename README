@@ -1,4 +1,9 @@
+!!BE CAREFUL AND AT LEAST LOWER YOUR VOLUME!!
 This is a very early version of a modular synthesizer framework.
+main.cc is the reference software synthesizer using this framework.
+The goal is to make it very easy to build synthesizers.
+The focus right now is on the abstract model.
+For now, the goal is not to implement any special signal processing models (e.g. circuit simulation).
 
 How to compile
 ==============
