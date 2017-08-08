@@ -7,7 +7,7 @@
 #define TABLE_SIZE (200)
 #endif
 
-//typedef float mus_audio_sample_t
+typedef float mus_audio_sample_t;
 
 typedef struct
 {
