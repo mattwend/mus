@@ -12,15 +12,17 @@
 
 namespace mus_modules {
 
-	template <typename T>
+	// Module : A → B
+	// modules might be soundprocessors, control modules (e.g. osc) or graphic widgets
+	template <typename A, typename B>
 	class Module
 	{
 		public:
-			virtual T& operator() (T&) = 0;
+			virtual B operator() (A) = 0;
 			virtual ~Module () = default;
 	};
 
-	class Mod_SinGen : public Module <mus_audio_buffer_t>
+	class Mod_SinGen : public Module <mus_audio_buffer_t&, mus_audio_buffer_t&>
 	{
 		public:
 			Mod_SinGen ();
@@ -31,7 +33,7 @@ namespace mus_modules {
 			int phase = 0;
 	};
 
-	class Noop : public Module <mus_audio_buffer_t>
+	class Noop : public Module <mus_audio_buffer_t&, mus_audio_buffer_t&>
 	{
 		public:
 			mus_audio_buffer_t& operator() (mus_audio_buffer_t& buffer) override;
