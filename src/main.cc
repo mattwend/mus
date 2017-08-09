@@ -23,7 +23,7 @@ void signal_handler (int sig)
 	quit.store(true);
 }
 
-class SynthApp
+class SynthApp : public Module <mus_audio_buffer_t&, void>
 {
 private:
 	Mod_SinGen mod_sg;
