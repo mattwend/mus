@@ -27,6 +27,7 @@ class SynthApp
 {
 private:
 	Mod_SinGen mod_sg;
+	Noop noop;
 public:
 	SynthApp ();
 
@@ -42,7 +43,7 @@ SynthApp::SynthApp ()
 
 void SynthApp::operator() (mus_audio_buffer_t& buffer)
 {
-	mod_sg.process (buffer);
+	mod_sg (noop (buffer));
 }
 
 void SynthApp::run ()
