@@ -19,7 +19,7 @@ namespace mus_modules {
 		}
 	}
 
-	void Mod_SinGen::process (mus_audio_buffer_t& buffer)
+	mus_audio_buffer_t& Mod_SinGen::operator() (mus_audio_buffer_t& buffer)
 	{
 		for ( int i = 0; i < buffer.nframes; ++i )
 		{
@@ -28,6 +28,13 @@ namespace mus_modules {
 			++phase;
 			if (phase >= TABLE_SIZE) phase -= TABLE_SIZE;
 		}
+
+		return buffer;
+	}
+
+	mus_audio_buffer_t& Noop::operator() (mus_audio_buffer_t& buffer)
+	{
+		return buffer;
 	}
 
 	//const std::string SumBuffers::type_("sum");
