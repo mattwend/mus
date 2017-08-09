@@ -29,17 +29,9 @@ private:
 	Mod_SinGen mod_sg;
 	Noop noop;
 public:
-	SynthApp ();
-
 	void operator() (mus_audio_buffer_t& buffer);
 	void run ();
 };
-
-SynthApp::SynthApp ()
-{
-	// connect singen with fork
-	// connect fork with output
-}
 
 void SynthApp::operator() (mus_audio_buffer_t& buffer)
 {
