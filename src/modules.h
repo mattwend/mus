@@ -29,7 +29,8 @@ namespace mus_modules {
 			mus_audio_buffer_t& operator() (mus_audio_buffer_t& buffer) override;
 			void init_data ();
 		private:
-			float sine[TABLE_SIZE];
+			static const int table_size = 400;
+			float sine[table_size];
 			int phase = 0;
 	};
 

@@ -13,9 +13,9 @@ namespace mus_modules {
 	void Mod_SinGen::init_data ()
 	{
 		// TODO this TABLE should be precalculated
-		for ( int i = 0; i < TABLE_SIZE; ++i )
+		for ( int i = 0; i < table_size; ++i )
 		{
-			sine[i] = 0.2 * (float) std::sin( ((double)i/(double)TABLE_SIZE) * M_PI * 2. );
+			sine[i] = 0.2 * (float) std::sin( ((double)i/(double)table_size) * M_PI * 2. );
 		}
 	}
 
@@ -26,7 +26,7 @@ namespace mus_modules {
 			buffer.out1[i] = sine[phase];
 			buffer.out2[i] = sine[phase];
 			++phase;
-			if (phase >= TABLE_SIZE) phase -= TABLE_SIZE;
+			if (phase >= table_size) phase -= table_size;
 		}
 
 		return buffer;
